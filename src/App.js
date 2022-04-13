@@ -7,7 +7,15 @@ import { Badge,Text,
    Skeleton, 
     SkeletonText,HStack,VStack, Spacer,
     Input,
-    InputGroup,Button, InputRightElement} from '@chakra-ui/react';
+    InputGroup,Button, InputRightElement,
+    Drawer,
+    DrawerBody,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerOverlay,
+    DrawerContent,
+    useDisclosure,
+    DrawerCloseButton,} from '@chakra-ui/react';
 import axios from "axios";
 
 
@@ -62,8 +70,16 @@ const [s4t, setS4t ] = useState("");
 const [s5p, setS5p ] = useState("");
 const [s5pl, setS5pl ] = useState("");
 const [s5t, setS5t ] = useState("");
+const [resp, setResp ] = useState("");
+const [respl, setRespl ] = useState("");
+const [rest, setRest ] = useState("");
+const [imp, setImp ] = useState("");
 
 
+const { isOpen, onOpen, onClose } = useDisclosure()
+
+
+var searching;
 
 useEffect(()=>{
   setTimeout(() => {
@@ -263,7 +279,22 @@ useEffect(()=>{
    
 
 
-
+   searching = ()=>{
+    axios.get(`https://omdbapi.com/?apikey=6d3966ee&t={imp}&plot=full `).then((res)=>{
+      const data = res.data.Poster
+      let plot = res.data.Title
+      let story = res.data.Plot
+      
+      
+      data ? setResp(data): setA5p("")
+      plot ? setRest(plot): setA5t("")
+      story ? setRespl(story): setA5pl("")
+      
+      
+    });
+    onOpen()
+  
+  }
 
 
 
@@ -271,17 +302,58 @@ useEffect(()=>{
   },1000);
 })
 
+
+
+
+const textChange= (e)=>{
+setImp(e.target.value)
+}
+
  
   return (
     count ? 
     <div className="App">
+
+<Drawer
+        isOpen={isOpen}
+        placement='right'
+        onClose={onClose}
+        
+        
+      >
+        <DrawerOverlay />
+        <DrawerContent >
+        <DrawerCloseButton color="white" zIndex="popover" bg="blackAlpha.700" />
+          <DrawerBody bg="blackAlpha.800" width="100%" color="white" >
+            {imp ? 
+            <Box>
+            <Box bg="white" w="150%" h="40%" ml="-10%" mt="-3%" >
+<Image src={resp} boxSize="full" objectFit="cover" brightness='20%' />
+
+            </Box>
+            <Text fontFamily="pop" ml="5%" >
+  {rest}
+</Text>
+<Text fontWeight="light" fontFamily="see" fontSize="sm" >
+  {respl}
+</Text>
+</Box> : <Box>
+<Skeleton startColor="blackAlpha.700" endColor="blackAlpha.500" w="150%" height="200px" ml="-10%" mt="-3%" />
+<SkeletonText noOfLines={1} startColor="blackAlpha.700" endColor="blackAlpha.500" mt="10%" width="30%" />
+  <SkeletonText mt='20%' noOfLines={[5,5,7]} spacing={['5','5','7']} startColor="blackAlpha.700" endColor="blackAlpha.500" w="100%" />
+  </Box>}
+
+          </DrawerBody>
+
+        </DrawerContent>
+      </Drawer>
       <Box  color='#db0000' letterSpacing='wide' fontSize={['2xl','4xl','5xl']} textAlign={['center',"center",'left']}  bg="black" fontFamily="me" >
   <Text ml={["0px","0px",'20']} >DAMIS</Text>
 </Box>
 <Box position="relative" boxSize='full' bg="blackAlpha.300"  h={["300px","400px","500px"]} >
 <Image
     boxSize='full'
-    objectFit={["fill","fill",""]}
+    objectFit={["fill","fill","cover"]}
     src={count}
     alt='Dan Abramov'
   />
@@ -300,7 +372,7 @@ useEffect(()=>{
   <GridItem rowSpan={[3,3,2]} colSpan={[4,4,3]}  ml={["30%","30%","5%"]}  color="white" mt={["30px","30px","40px"]} fontFamily="pop" fontSize={["large","2xl","6xl"]} >
     WATCH SOMETHING INCREDIBLE
   </GridItem>
-  <GridItem colSpan={[2,2,1]} rowSpan={2} color="whiteAlpha.600" fontSize={["x-small","medium","xl"]} mt={["0px","0px","40px"]} fontFamily="see"  >
+  <GridItem colSpan={[2,2,1]} rowSpan={2} color="whiteAlpha.800" fontSize={["x-small","medium","xl"]} mt={["0px","0px","40px"]} fontFamily="see"  >
     {actors}
   </GridItem>
   <GridItem colSpan={2}  >
@@ -320,15 +392,16 @@ useEffect(()=>{
 mt={["8%","8%",'2%']}
 >
 
-<InputGroup size="xs" w="80%">
+<InputGroup size="sm" w="80%">
       <Input
       
         pr='4.5rem'
         type="text"
         placeholder='Search Movies'
+        onChange={textChange}
       />
       <InputRightElement width='4.5rem'   position="relative">
-        <Button  size='xs' position="absolute" mr="0" >
+        <Button  size='xs' position="absolute" mr="0" onClick={searching} >
           search
         </Button>
       </InputRightElement>

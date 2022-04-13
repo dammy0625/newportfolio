@@ -79,9 +79,30 @@ const [imp, setImp ] = useState("");
 const { isOpen, onOpen, onClose } = useDisclosure()
 
 
-var searching;
 
+var searching = ()=>{
+  axios.get(`https://omdbapi.com/?apikey=6d3966ee&t=${imp}&plot=full`).then((res)=>{
+      const data = res.data.Poster
+      let plot = res.data.Title
+      let story = res.data.Plot
+      
+      
+      data ? setResp(data): setA5p("")
+      plot ? setRest(plot): setA5t("")
+      story ? setRespl(story): setA5pl("")
+
+     
+      
+      
+      
+    });
+
+    
+  
+}
 useEffect(()=>{
+  searching();
+
   setTimeout(() => {
     axios.get('https://omdbapi.com/?apikey=6d3966ee&i=tt14439896&plot=full').then((res)=>{
     let data = res.data.Poster
@@ -263,8 +284,7 @@ useEffect(()=>{
     
     
   });
-   
-    axios.get('https://omdbapi.com/?apikey=6d3966ee&i=tt3581920&plot=full').then((res)=>{
+    axios.get('https://omdbapi.com/?apikey=6d3966ee&i=tt11311302&plot=full').then((res)=>{
     const data = res.data.Poster
     let plot = res.data.Title
     let story = res.data.Plot
@@ -278,30 +298,23 @@ useEffect(()=>{
   });
    
 
+   
 
-   searching = ()=>{
-    axios.get(`https://omdbapi.com/?apikey=6d3966ee&t={imp}&plot=full `).then((res)=>{
-      const data = res.data.Poster
-      let plot = res.data.Title
-      let story = res.data.Plot
-      
-      
-      data ? setResp(data): setA5p("")
-      plot ? setRest(plot): setA5t("")
-      story ? setRespl(story): setA5pl("")
-      
-      
-    });
-    onOpen()
-  
-  }
+
+   
 
 
 
 
   },1000);
-})
 
+  
+  
+
+},[])
+
+
+ 
 
 
 
@@ -317,18 +330,22 @@ setImp(e.target.value)
 <Drawer
         isOpen={isOpen}
         placement='right'
-        onClose={onClose}
+        onClose={()=>{
+          setImp("")
+          onClose()
+          console.log(imp)
+        }}
         
         
       >
         <DrawerOverlay />
         <DrawerContent >
         <DrawerCloseButton color="white" zIndex="popover" bg="blackAlpha.700" />
-          <DrawerBody bg="blackAlpha.800" width="100%" color="white" >
-            {imp ? 
+          <DrawerBody bg="blackAlpha.800" width="100%" color="white" overflowX="hidden" >
+            {rest ? 
             <Box>
-            <Box bg="white" w="150%" h="40%" ml="-10%" mt="-3%" >
-<Image src={resp} boxSize="full" objectFit="cover" brightness='20%' />
+            <Box bg="white" w="150%" h="400px" ml="-10%" mt="-3%" >
+<Image src={resp} height="100%" w="100%" objectFit="cover" brightness='20%' />
 
             </Box>
             <Text fontFamily="pop" ml="5%" >
@@ -399,9 +416,13 @@ mt={["8%","8%",'2%']}
         type="text"
         placeholder='Search Movies'
         onChange={textChange}
+        value={imp}
       />
       <InputRightElement width='4.5rem'   position="relative">
-        <Button  size='xs' position="absolute" mr="0" onClick={searching} >
+        <Button  size='xs' position="absolute" mr="0"  onClick={()=>{
+          onOpen();
+          searching()
+        }} >
           search
         </Button>
       </InputRightElement>

@@ -1,6 +1,6 @@
 import { useEffect,useState } from 'react';
 import './App.css';
-import { Box, Center, Flex } from '@chakra-ui/layout';
+import { Box, Center, Flex, Heading } from '@chakra-ui/layout';
 import { Badge,Text,
   Image,Grid,
    GridItem,Divider,
@@ -17,9 +17,16 @@ import { Badge,Text,
     useDisclosure,
     Avatar,
     Accordion,AccordionItem,AccordionIcon,AccordionButton,AccordionPanel,
+    Tabs,Tab,TabList,TabPanels,TabPanel,
     DrawerCloseButton,} from '@chakra-ui/react';
     import me from "./me.png";
+    import omdb from "./omdb.png";
+    import nytimes from "./nytimes.png";
     import {HiOutlineMail} from "react-icons/hi"
+    import {FaTwitterSquare} from "react-icons/fa"
+    import {MdEmail} from "react-icons/md"
+    import {FaGithub} from "react-icons/fa"
+    import {FaLinkedin} from "react-icons/fa"
 
 
 
@@ -47,11 +54,14 @@ function App() {
         <Button as="a" mt={["40px","-20%"]} ml={["0","60%"]} href="mailto:muyiwalateef@gmail.com" size={["sm"]} bg="#9fa8a3" color="white"  rightIcon={<HiOutlineMail/>} > Get in touch</Button>
 
       </Box>
+      <Box display="flex" flexDirection={["column","column","row"]} >
+
+      <Box w={["100%","100%","50%"]} >
       <Accordion allowToggle >
         <AccordionItem bg="#c5d5cb" color="#9fa8a3"  >
           <h2>
             <AccordionButton  >
-              <Box flex="1" textAlign="left" fontFamily="pop" fontSize={["md","2xl"]} >
+              <Box flex="1" textAlign="left" fontFamily="pop" fontSize={["sm"]} >
                 my story
               </Box>
               <AccordionIcon/>
@@ -71,7 +81,7 @@ function App() {
         <AccordionItem bg="#c5d5cb" color="#9fa8a3"  >
           <h2>
             <AccordionButton  >
-              <Box flex="1" textAlign="left" fontFamily="pop" fontSize={["md","2xl"]} >
+              <Box flex="1" textAlign="left" fontFamily="pop" fontSize={["sm"]} >
                 tech stack
               </Box>
               <AccordionIcon/>
@@ -100,23 +110,102 @@ function App() {
         <AccordionItem bg="#c5d5cb" color="#9fa8a3"  >
           <h2>
             <AccordionButton  >
-              <Box flex="1" textAlign="left" fontFamily="pop" fontSize={["md","2xl"]} >
+              <Box flex="1" textAlign="left" fontFamily="pop" fontSize={["sm"]} >
                 projects
               </Box>
               <AccordionIcon/>
             </AccordionButton>
           </h2>
           <AccordionPanel pb={4} fontFamily="see" >
-
-            <HStack wrap="wrap" spacing={2} h={["100px"]} >
+          <Tabs isFitted variant="enclosed" color="#9fa8a3" >
+            <TabList  >
+              <Tab> <Text textTransform="capitalize" fontSize={["sm"]} fontFamily="pop" >movies-app</Text> </Tab>
+              <Tab> <Text textTransform="capitalize" fontSize={["sm"]} fontFamily="pop" >news-app</Text> </Tab>
              
-            </HStack>
+              
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                <Box width="100%" as="a" href='http://damismovies.netlify.app' h="300px"  position="relative" justifyContent="space-between"  display="flex" >
+                  
+                  <Image  src={omdb} w="50%" h="100%" objectFit="cover"  />
+                  <Box width="45%" h="100%"   >
+                    <Text textTransform="capitalize" fontFamily="pop" fontSize={["sm","sm","lg"]} >movie search app</Text>
+                    <Text fontFamily="see" mt={["20px","20px","40px"]} fontSize={["sm","sm","md"]} >
+                    A simple web app built with the OMDB api , and chakra UI as the ui design system , with
+                     a list of movies , and also gives you the ability to search any movie of your choice.
+                    </Text>
+                    <HStack mt="20px" wrap="wrap" height="50px" >
+                    <Badge colorScheme="green"  variant="subtle" fontSize="x-small" >React-js</Badge>
+                    <Badge colorScheme="green"  fontSize="x-small" >chakra-ui</Badge>
+                    <Badge colorScheme="green"  fontSize="x-small" >omdb API</Badge>
+                    <Badge colorScheme="green"  fontSize="x-small" >netlify</Badge>
+                  </HStack>
+
+                  </Box>
+                  
+                </Box>
+
+              </TabPanel>
+              <TabPanel>
+                <Box width="100%" h="300px" as="a" href='https://nytimesum.netlify.app' position="relative" justifyContent="space-between"  display="flex" flexDirection="column" >
+                  
+                  <Image src={nytimes} w="100%" h="50%" objectFit="cover"  />
+                  <Box width="100%" h="50%"   >
+                    <Text textTransform="capitalize" mt="20px" fontFamily="pop" fontSize={["md","md","lg"]} >nytimes news summary app</Text>
+                    <Text fontFamily="see" mt={["20px","20px","40px"]} fontSize={["sm","sm","md"]} >
+                    A web app built with the nytimes REST api,with multiple news sections
+                     where you can read short summaries on trending topics
+                    </Text>
+                    <HStack mt="20px" wrap="wrap" height="50px" >
+                    <Badge colorScheme="green"  variant="subtle" fontSize="x-small" >nytimes api</Badge>
+                    <Badge colorScheme="green"  fontSize="x-small" >scss</Badge>
+                    <Badge colorScheme="green"  fontSize="x-small" >netlify</Badge>
+                    <Badge colorScheme="green"  fontSize="x-small" >react-js</Badge>
+                  </HStack>
+
+                  </Box>
+                  
+                </Box>
+
+              </TabPanel>
+              
+              
+            </TabPanels>
+          </Tabs>
+
+          <Button mt="30px" bg="#9fa8a3" color="white" size="sm" textTransform="capitalize" >all projects</Button>
          
           </AccordionPanel>
         </AccordionItem>
 
       </Accordion>
+      </Box>
+      <Box bg="#e3e0cf" w={["100%","100%","50%"]} color="#9fa8a3" >
+        <Text fontFamily="pop" fontSize={["sm","sm","md"]} >like to work with me..?</Text>
+        <Text fontFamily="see" mt={["20px","20px","40px"]} fontSize={["sm","sm","md"]} >i am always open to new opportunities  ;)</Text>
+        <Button as="a" mt={["40px"]} href="mailto:muyiwalateef@gmail.com" size={["sm"]} bg="#9fa8a3" color="white"  rightIcon={<HiOutlineMail/>} > Get in touch</Button>
+        <HStack mt="40px" m="20px" >
+        <Box as='a' href="https://www.twitter.com/LateefMuyiwa" >
 
+          <FaTwitterSquare  />
+        </Box>
+        <Box as='a' href="mailto:muyiwalateef@gmail.com" >
+
+          <MdEmail/>
+        </Box>
+        <Box as='a' href="https://www.github.com/dammy0625" >
+
+          <FaGithub/>
+        </Box>
+        <Box as='a' href="https://www.linkedin.com/in/opeyemi-muyiwa-a97207219">
+
+          <FaLinkedin/>
+        </Box>
+          
+        </HStack>
+      </Box>
+      </Box>
 
     </div>
   )
